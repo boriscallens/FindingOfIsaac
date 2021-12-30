@@ -29,6 +29,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:  
+      run:  
+        working-directory: ./FOI.web  
     steps:
       - name: Get Source
         uses: actions/checkout@v2
