@@ -20,11 +20,11 @@ on:
   workflow_dispatch: {}
       
 # Environment variables available to all jobs and steps in this workflow
-env:
-  APP_LOCATION: "/" # location of your client code
-  API_LOCATION: "api" # location of your api source code - optional
-  APP_ARTIFACT_LOCATION: "build" # location of client code build output
-  AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing deployment token for your static web app
+# env:
+#   APP_LOCATION: "/" # location of your client code
+#   API_LOCATION: "api" # location of your api source code - optional
+#   APP_ARTIFACT_LOCATION: "build" # location of client code build output
+#   AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing deployment token for your static web app
 
 jobs:
   build:
@@ -40,6 +40,22 @@ jobs:
         run: |
           npm install
           npm run build
+          
+      - name: Log in to azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' -s ./build/static/
+            
+      - name: Azure logout
+        run: |
+            az logout
+        if: always()
 
 #   build_and_deploy_job:
 #     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
