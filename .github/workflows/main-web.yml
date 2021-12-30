@@ -36,10 +36,10 @@ jobs:
       - name: Get Source
         uses: actions/checkout@v2
         
-#       - name: Build svelte kit
-#         run: |
-#           npm install
-#           npm run build
+      - name: Build svelte kit
+        run: |
+          npm install
+          npm run build
           
       - name: Log in to azure
         uses: azure/login@v1
@@ -50,8 +50,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            npm install
-            npm run build
             az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source $GITHUB_WORKSPACE/build/static/
           
             
