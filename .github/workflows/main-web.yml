@@ -50,6 +50,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            ls -C --group-directories-first $GITHUB_WORKSPACE
             az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source $GITHUB_WORKSPACE/build/static/
           
             
