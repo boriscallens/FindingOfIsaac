@@ -49,9 +49,8 @@ jobs:
       - name: Upload to blob storage
         uses: azure/CLI@v1
         with:
-          working-directory: ./FOI.Web/build/static/
           inlineScript: |
-            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' -s .
+            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source ./FOI.Web/build/static/
           
             
       - name: Azure logout
