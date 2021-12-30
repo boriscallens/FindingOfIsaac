@@ -50,7 +50,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source ./FOI.Web/build/static/
+            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source ./build/static/
           
             
       - name: Azure logout
