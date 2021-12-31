@@ -43,6 +43,9 @@ jobs:
       
       - name: Getting folder insight
         run: |
+          ls -C --group-directories-first ./
+          ls -C --group-directories-first ./build/static/
+          ls -C --group-directories-first $GITHUB_WORKSPACE
           ls -C --group-directories-first $GITHUB_WORKSPACE
           ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/
           ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/build
@@ -58,7 +61,7 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source $GITHUB_WORKSPACE/FOI.Web/build/static/
+            az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source ./build/static/
             
       - name: Azure logout
         run: |
