@@ -40,7 +40,15 @@ jobs:
         run: |
           npm install
           npm run build
-          
+      
+      - name: Getting folder insight
+        run: |
+          ls -C --group-directories-first $GITHUB_WORKSPACE
+          ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/
+          ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/build
+          ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/build/static
+        continue-on-error: true
+
       - name: Log in to azure
         uses: azure/login@v1
         with:
@@ -50,7 +58,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            ls -C --group-directories-first $GITHUB_WORKSPACE/FOI.Web/
             az storage blob upload-batch --account-name findingofisaac --auth-mode key -d '$web' --source $GITHUB_WORKSPACE/FOI.Web/build/static/
             
       - name: Azure logout
